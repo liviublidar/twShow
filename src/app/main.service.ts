@@ -6,6 +6,11 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 @Injectable()
 export class MainService {
 
+  private apiMap: any = {
+    'http://localhost:4200/': 'http://127.0.0.1:8000/',
+    'https://twbackbone.tk/': 'https://api.twbackbone.tk'
+  }
+
   public twitterUsers = [];
 
   constructor(
@@ -15,8 +20,13 @@ export class MainService {
     this.setTwitterUsers();
   }
 
+  private getApiUrl(): string {
+    return this.apiMap[window.location.href];
+  }
+
   public getAppOauthToken(): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/tw');
+    let url: string = this.getApiUrl() + 'tw';
+    return this.http.get(url);
   }
 
   public confirmPin(pin: number, mainTwitterToken: string): Observable<any> {
@@ -24,15 +34,16 @@ export class MainService {
       'pin': pin,
       'mainToken': mainTwitterToken
     };
-
-    return this.http.post('http://127.0.0.1:8000/tw/connect', body);
+    let url: string = this.getApiUrl() +'tw/connect';
+    return this.http.post(url, body);
   }
 
   public getTweets(user: any): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/tw/tweets', user);
+    let url: string = this.getApiUrl() + 'tw/tweets';
+    return this.http.post(url, user);
   }
 
-  public addTwitterUser(user: any, callback?) {
+  public addTwitterUser(user: any) {
     this.dbService.add('twUsers', user).then(
       success => {
         this.setTwitterUsers()
