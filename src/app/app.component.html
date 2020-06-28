@@ -21,12 +21,21 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
+
     <mat-card class="mainContentCard">
-      <div class="twitterFeedPlaceholder">
+      <mat-progress-bar mode="determinate" [value]="percentToRefresh"></mat-progress-bar>
+      <div class="twitterFeedPlaceholder" *ngIf="tweets.length < 1">
         <img src="assets/twGlasses.svg"/>
         <button mat-raised-button color="primary" (click)="toggleSideNav()">
           <mat-icon>leak_add</mat-icon> Connect your twitter account to view feeds
         </button>
+      </div>
+      <div class="feed" *ngIf="tweets.length > 0">
+        <div class="tweet" *ngFor="let tweet of tweets">
+          <div class="text">
+            {{tweet.text}}
+          </div>
+        </div>
       </div>
     </mat-card>
   </mat-sidenav-content>

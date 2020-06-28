@@ -17,6 +17,7 @@ import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
 import {MatRadioModule} from "@angular/material/radio";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 export function migrationFactory() {
   return {
@@ -61,7 +62,8 @@ const dbConfig: DBConfig  = {
     FormsModule,
     MatDialogModule,
     NgxIndexedDBModule.forRoot(dbConfig),
-    MatRadioModule
+    MatRadioModule,
+    MatProgressBarModule
   ],
   providers: [MainService],
   bootstrap: [AppComponent]

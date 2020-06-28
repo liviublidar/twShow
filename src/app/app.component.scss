@@ -39,6 +39,8 @@ mat-sidenav {
   margin-left: auto;
   margin-right: auto;
   margin-top: 3vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
   div.twitterFeedPlaceholder {
     display: flex;
@@ -49,5 +51,21 @@ mat-sidenav {
     background-position: center;
     background-repeat: no-repeat;
     height: 50vh;
+  }
+
+  div.feed {
+    div.tweet {
+      display:-ms-grid; //IE Fallback
+      display: grid;
+
+      -ms-grid-columns: 40px auto; //IE fallback
+      grid-template-columns: 40px auto;
+      -ms-grid-rows: 20px 20px auto 30px; //IE fallback
+      grid-template-rows: 20px 20px auto 30px;
+
+
+      border: 1px solid #fafafa;
+
+    }
   }
 }
