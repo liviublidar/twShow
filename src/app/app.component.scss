@@ -16,7 +16,15 @@ mat-sidenav {
     mat-card {
       width: 25vw;
 
-      &.twConnectButton {
+      &.userList {
+        padding-top: 200px;
+
+        mat-radio-button {
+          display: block;
+        };
+      }
+
+      &.twConnectButton, &.getTimelineButton {
         background-color: #3f51b5;
         color: white;
         cursor: pointer;

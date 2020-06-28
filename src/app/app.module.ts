@@ -16,15 +16,12 @@ import { FormsModule } from "@angular/forms";
 import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
-
+import {MatRadioModule} from "@angular/material/radio";
 
 export function migrationFactory() {
-  // The animal table was added with version 2 but none of the existing tables or data needed
-  // to be modified so a migrator for that version is not included.
   return {
     1: (db, transaction) => {
       transaction.objectStore('twUsers');
-   /*   store.createIndex('country', 'country', { unique: false });*/
     }
   };
 }
@@ -63,7 +60,8 @@ const dbConfig: DBConfig  = {
     MatFormFieldModule,
     FormsModule,
     MatDialogModule,
-    NgxIndexedDBModule.forRoot(dbConfig)
+    NgxIndexedDBModule.forRoot(dbConfig),
+    MatRadioModule
   ],
   providers: [MainService],
   bootstrap: [AppComponent]

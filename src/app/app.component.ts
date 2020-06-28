@@ -12,12 +12,10 @@ import { PinDialogComponent } from "./pin-dialog/pin-dialog.component";
 export class AppComponent implements OnInit {
   public title = 'twShow';
   public sideNavOpened: boolean = false;
-  private mainTwitterToken: string = '';
   public showTwitterConnectionError: boolean = false;
   public errorMessage: string = "Something went wrong with the connection to Twitter.";
   public showPinPrompt: boolean = false;
-  public twitterPin: number;
-  public twitterUsers: Array<any> = [];
+  public tweets: Array<any> = [];
 
   constructor(
     private mainService: MainService,
@@ -30,12 +28,11 @@ export class AppComponent implements OnInit {
     this.sideNavOpened = !this.sideNavOpened;
   }
 
-
   private openPinPrompt(token: string): void {
     const dialogRef = this.dialog.open(PinDialogComponent, {
       width: '40vw',
       data: {
-        title: 'Twitter token',
+        title: 'Twitter PIN',
         token: token
       }
     });
@@ -53,26 +50,25 @@ export class AppComponent implements OnInit {
       } else {
         let url: string = 'https://api.twitter.com/oauth/authenticate?oauth_token=' + response.data;
         window.open(url, "_blank");
-        this.mainTwitterToken = response.data;
         this.showPinPrompt = true;
         this.openPinPrompt(response.data);
       }
     })
   }
 
-  public confirmPin(): void {
-     this.mainService.confirmPin(this.twitterPin, this.mainTwitterToken).subscribe((response) => {
-       this.twitterUsers.push(response.data);
-     })
-  }
-
   public getTweets(): void{
-    this.mainService.getTweets(this.twitterUsers[0]).subscribe((response) => {
-      console.log(response);
+    this.mainService.getTweets(this.mainService.getSelectedTwitterUser()).subscribe((response) => {
+      this.tweets = response;
     })
   }
 
-  public getAllTwitterUsers(): string {
+  public getAllTwitterUsers(): Array<any> {
     return this.mainService.twitterUsers;
   }
+
+  public selectTwitterUser(user: any): void {
+    this.mainService.selectTwitterUser(user.user_id);
+  }
+
+
 }

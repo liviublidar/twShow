@@ -1,29 +1,23 @@
-
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav mode="side" [(opened)]="sideNavOpened">
     <div class="menuItemsWrapper">
-      <mat-card *ngIf="!showPinPrompt" class="noTwitterUserConnected">
-        <mat-card-title>No twitter account connected</mat-card-title>
-        <mat-card-content>You haven't linked your twitter account yet so you can't see any feeds.</mat-card-content>
-      </mat-card>
-      <mat-card *ngIf="showPinPrompt" class="pinPrompt">
-        <mat-card-title>Please input the PIN given by Twitter</mat-card-title>
-          <mat-card-content>
-            <form (submit)="confirmPin()">
-              <input  [(ngModel)]="twitterPin" name="pin" type="number" placeholder="1234567" maxlength="7"/>
-              <button mat-raised-button color="primary" type="submit">Connect</button>
-            </form>
-        </mat-card-content>
+      <mat-card *ngIf="getAllTwitterUsers().length < 1" class="noTwitterUserConnected">
+        <mat-card-title>No twitter accounts connected</mat-card-title>
+        <mat-card-content>You haven't linked a twitter account yet so you can't see any feeds.</mat-card-content>
       </mat-card>
       <mat-card class="twConnectButton" (click)="connectTwitter()">
-        <mat-card-title>Connect your twitter account</mat-card-title>
+        <mat-card-title>Connect a twitter account</mat-card-title>
         <mat-card-content>If you're not logged in, this will redirect you to Twitter's login page.</mat-card-content>
       </mat-card>
-      <mat-card class="twConnectButton" (click)="getTweets()">
-        <mat-card-title>get tweets</mat-card-title>
+      <mat-card *ngIf="getAllTwitterUsers().length > 0" class="userList">
+        <mat-card-title>Select one of these twitter accounts to act on behalf of</mat-card-title>
+          <mat-radio-button *ngFor="let user of getAllTwitterUsers()" [checked]="user.selected" (click)="selectTwitterUser(user)">{{user.screen_name}}</mat-radio-button>
+      </mat-card>
+
+      <mat-card class="getTimelineButton" (click)="getTweets()">
+        <mat-card-title>Get Timeline</mat-card-title>
       </mat-card>
     </div>
-
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -34,7 +28,6 @@
           <mat-icon>leak_add</mat-icon> Connect your twitter account to view feeds
         </button>
       </div>
-
     </mat-card>
   </mat-sidenav-content>
 </mat-sidenav-container>

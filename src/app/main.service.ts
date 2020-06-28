@@ -6,7 +6,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 @Injectable()
 export class MainService {
 
-  public twitterUsers;
+  public twitterUsers = [];
 
   constructor(
     private http: HttpClient,
@@ -14,7 +14,6 @@ export class MainService {
   ) {
     this.setTwitterUsers();
   }
-
 
   public getAppOauthToken(): Observable<any> {
     return this.http.get('http://127.0.0.1:8000/tw');
@@ -35,21 +34,54 @@ export class MainService {
 
   public addTwitterUser(user: any, callback?) {
     this.dbService.add('twUsers', user).then(
-      null,
+      success => {
+        this.setTwitterUsers()
+      },
       error => {
         console.log(error);
       }
     );
   }
 
-  public setTwitterUsers(): void {
+  public setTwitterUsers(selectId?: number): void {
     this.dbService.getAll('twUsers').then(
-      twUsers => {
-        this.twitterUsers = twUsers
+      (twUsers: Array<any>) => {
+        if(twUsers.length > 0){
+          if(selectId) {
+            twUsers.forEach( (item: any) =>{
+              if(item.user_id === selectId) {
+                item.selected = true;
+              }
+            })
+          } else {
+            twUsers[0].selected = true;
+          }
+        }
+
+        this.twitterUsers = twUsers;
       },
       error => {
         console.log(error);
       }
     );
+  }
+
+  public selectTwitterUser(userId: number) {
+    this.twitterUsers.forEach(user => {
+      if(user.user_id == userId) {
+        user.selected = true;
+      } else {
+        user.selected = false;
+      }
+    })
+    console.log(this.twitterUsers)
+  }
+
+  public getSelectedTwitterUser(): any {
+    for(const user of this.twitterUsers){
+      if(user.selected){
+        return user;
+      }
+    }
   }
 }
