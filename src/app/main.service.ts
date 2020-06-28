@@ -8,7 +8,7 @@ export class MainService {
 
   private apiMap: any = {
     'http://localhost:4200/': 'http://127.0.0.1:8000/',
-    'https://twbackbone.tk/': 'https://api.twbackbone.tk'
+    'https://twbackbone.tk/': 'https://api.twbackbone.tk/'
   }
 
   public twitterUsers = [];
