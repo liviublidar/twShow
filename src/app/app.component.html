@@ -21,9 +21,8 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-
+    <mat-progress-bar mode="determinate" [value]="percentToRefresh"></mat-progress-bar>
     <mat-card class="mainContentCard">
-      <mat-progress-bar mode="determinate" [value]="percentToRefresh"></mat-progress-bar>
       <div class="twitterFeedPlaceholder" *ngIf="tweets.length < 1">
         <img src="assets/twGlasses.svg"/>
         <button mat-raised-button color="primary" (click)="toggleSideNav()">
@@ -32,6 +31,7 @@
       </div>
       <div class="feed" *ngIf="tweets.length > 0">
         <div class="tweet" *ngFor="let tweet of tweets">
+          <img class="profileImage" src="{{tweet.user.profile_image_url_https}}">
           <div class="text">
             {{tweet.text}}
           </div>

@@ -10,18 +10,17 @@ import { PinDialogComponent } from "./pin-dialog/pin-dialog.component";
 })
 
 export class AppComponent implements OnInit {
-  public title = 'twShow';
-  public sideNavOpened: boolean = false;
-  public showTwitterConnectionError: boolean = false;
-  public errorMessage: string = "Something went wrong with the connection to Twitter.";
-  public showPinPrompt: boolean = false;
-  public tweets: Array<any> = [];
-  public percentToRefresh: number = 0;
   private interval: any;
   private intervalStarted = false;
   private refreshEvery: number = 20000; //milliseconds
   private refreshTicks: number = 0;
-  private tickEvery: number = 350 //milliseconds
+  private tickEvery: number = 650 //milliseconds
+  public title = 'twShow';
+  public sideNavOpened: boolean = false;
+  public showTwitterConnectionError: boolean = false;
+  public showPinPrompt: boolean = false;
+  public tweets: Array<any> = [];
+  public percentToRefresh: number = 0;
 
 
   constructor(
@@ -51,9 +50,8 @@ export class AppComponent implements OnInit {
 
   private handleRefresh(): void {
     this.refreshTicks += this.tickEvery;
-
-    this.percentToRefresh = Math.round((this.refreshTicks / (this.refreshEvery)) * 100)
-    console.log(this.percentToRefresh);
+    let newPercent = Math.round((this.refreshTicks / (this.refreshEvery)) * 100);
+    this.percentToRefresh = newPercent;
 
     if(this.refreshTicks >= this.refreshEvery) {
       this.getTweets();
@@ -102,8 +100,6 @@ export class AppComponent implements OnInit {
     this.startOrReloadInterval()
 
   }
-
-
 
   public getAllTwitterUsers(): Array<any> {
     return this.mainService.twitterUsers;
