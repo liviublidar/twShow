@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from "./main.service";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PinDialogComponent } from "./pin-dialog/pin-dialog.component";
 
 @Component({
@@ -46,10 +46,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-
   public connectTwitter(): void {
-
-
     this.mainService.getAppOauthToken().subscribe((response) => {
       if (response.data < 1) {
         this.showTwitterConnectionError = true;
@@ -73,5 +70,9 @@ export class AppComponent implements OnInit {
     this.mainService.getTweets(this.twitterUsers[0]).subscribe((response) => {
       console.log(response);
     })
+  }
+
+  public getAllTwitterUsers(): string {
+    return this.mainService.twitterUsers;
   }
 }

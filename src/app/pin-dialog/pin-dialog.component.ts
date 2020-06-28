@@ -10,6 +10,7 @@ import { MainService } from "../main.service";
 export class PinDialogComponent {
   public gotTokens:boolean = false;
   public twitterPin: number;
+  public twitterUserTokens: any
 
   constructor(
     public dialogRef: MatDialogRef<PinDialogComponent>,
@@ -21,10 +22,10 @@ export class PinDialogComponent {
     this.dialogRef.close();
   }
 
-
   public confirmPin(): void {
     this.mainService.confirmPin(this.twitterPin, this.data.token).subscribe((response) => {
-      this.twitterUsers.push(response.data);
+      this.twitterUserTokens = response.data;
+      this.mainService.addTwitterUser(response.data);
     })
   }
 

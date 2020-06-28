@@ -15,6 +15,35 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule } from "@angular/forms";
 import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
+
+
+export function migrationFactory() {
+  // The animal table was added with version 2 but none of the existing tables or data needed
+  // to be modified so a migrator for that version is not included.
+  return {
+    1: (db, transaction) => {
+      transaction.objectStore('twUsers');
+   /*   store.createIndex('country', 'country', { unique: false });*/
+    }
+  };
+}
+
+const dbConfig: DBConfig  = {
+  name: 'twShowDb',
+  version: 1,
+  objectStoresMeta: [{
+    store: 'twUsers',
+    storeConfig: { keyPath: 'id', autoIncrement: true },
+    storeSchema: [
+      { name: 'oauth_token', keypath: 'oauth_token', options: { unique: true } },
+      { name: 'user_id', keypath: 'user_id', options: { unique: true } },
+      { name: 'screen_name', keypath: 'screen_name', options: { unique: true } },
+      { name: 'oauth_token_secret', keypath: 'oauth_token_secret', options: { unique: true } },
+    ]
+  }],
+  migrationFactory
+};
 
 @NgModule({
   declarations: [
@@ -33,7 +62,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     HttpClientModule,
     MatFormFieldModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxIndexedDBModule.forRoot(dbConfig)
   ],
   providers: [MainService],
   bootstrap: [AppComponent]
