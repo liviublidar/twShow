@@ -85,7 +85,6 @@ export class MainService {
         user.selected = false;
       }
     })
-    console.log(this.twitterUsers)
   }
 
   public getSelectedTwitterUser(): any {
@@ -94,5 +93,14 @@ export class MainService {
         return user;
       }
     }
+  }
+
+  public likeTweet(tweetId: number): Observable<any> {
+    let body = {
+      'tweetId': tweetId,
+      'userValues': this.getSelectedTwitterUser()
+    };
+    let url: string = this.getApiUrl() +'tw/like';
+    return this.http.post(url, body);
   }
 }

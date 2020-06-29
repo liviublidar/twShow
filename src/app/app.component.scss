@@ -14,7 +14,7 @@ mat-sidenav {
     padding-top: 30%;
 
     mat-card {
-      width: 25vw;
+      width: 15vw;
 
       &.userList {
         padding-top: 200px;
@@ -55,17 +55,56 @@ mat-sidenav {
 
   div.feed {
     div.tweet {
-      display:-ms-grid; //IE Fallback
       display: grid;
-
-      -ms-grid-columns: 40px auto; //IE fallback
-      grid-template-columns: 40px auto;
-      -ms-grid-rows: 20px 20px auto 30px; //IE fallback
-      grid-template-rows: 20px 20px auto 30px;
-
-
+      padding: 10px;
+      grid-template-columns: 48px auto;
+      grid-template-rows: 24px auto 48px;
+      grid-gap: 8px;
       border: 1px solid #fafafa;
 
+      img.profileImage {
+        grid-row-start: 1;
+        grid-row-end: span 2;
+        grid-column-start: 1;
+        grid-column-end: span 1;
+        border-radius: 100%;
+      }
+
+      div.profileDetails {
+        grid-row-start: 1;
+        grid-row-end: span 1;
+        grid-column-start: 2;
+        grid-column-end: span 1;
+
+        span.profileName {
+          color: #3f51b5;
+          font-weight: 500;
+          margin-right: 8px;
+          font-size: 15px;
+        }
+
+        span.profileHandle {
+          color: rgba(108, 122, 137, 1);
+        }
+      }
+
+      div.content {
+        img {
+          height: 240px;
+          border-radius: 5px;
+        }
+      }
+
+      div.actions {
+        grid-row-start: 3;
+        grid-row-end: span 1;
+        grid-column-start: 1;
+        grid-column-end: span 2;
+
+        button.action {
+          margin-right: 16px;
+        }
+      }
     }
   }
 }

@@ -32,8 +32,20 @@
       <div class="feed" *ngIf="tweets.length > 0">
         <div class="tweet" *ngFor="let tweet of tweets">
           <img class="profileImage" src="{{tweet.user.profile_image_url_https}}">
-          <div class="text">
+          <div class="profileDetails">
+            <span class="profileName">{{tweet.user.name}}</span>
+            <span class="profileHandle">@{{tweet.user.screen_name}}</span>
+          </div>
+          <div class="content">
             {{tweet.text}}
+            <div *ngIf="tweet.entities.media" class="imageContainer">
+              <img *ngFor="let image of tweet.entities.media" src="{{image.media_url_https}}"/>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button mat-raised-button color="primary" class="action like" (click)="likeTweet(tweet.id)">LIKE</button>
+            <button mat-raised-button color="primary" class="action retweet">RETWEET</button>
           </div>
         </div>
       </div>

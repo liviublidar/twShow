@@ -108,4 +108,11 @@ export class AppComponent implements OnInit {
   public selectTwitterUser(user: any): void {
     this.mainService.selectTwitterUser(user.user_id);
   }
+
+  public likeTweet(tweetId: number): void {
+    this.mainService.likeTweet(tweetId).subscribe( response => {
+      console.log(response);
+    })
+  }
+
 }
